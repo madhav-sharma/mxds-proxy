@@ -1,0 +1,28 @@
+version: "3.9"
+volumes:
+  redis-vol: {}
+  mongo-vol: {}
+  proxy-tmp-vol:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+
+services:
+  mxds-proxy:
+    hostname: mxds-proxy
+    ports:
+      - "8000:80"
+    volumes:
+      - proxy-tmp-vol:/run/python/temp
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER_ID: ${CONTAINER_USER_ID:-}
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    driver: bridge
