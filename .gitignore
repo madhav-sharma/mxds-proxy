@@ -1,2 +1,4 @@
 
 .idea
+deploy/certs
+.DS_Store
